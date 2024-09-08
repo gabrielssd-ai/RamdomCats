@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gatinhos Aleatórios</title>
+    <style>
+      .container {
+        display: flex;
+        background: #eeeeee;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .item {
+        background: #ffffcc;
+        padding: 0.5rem;
+        font-weight: 700;
+      }
+      .cat-image {
+        max-width: 300px;
+        border-radius: 8px;
+        border: 2px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      async function getRandomCat() {
+        try {
+          const response = await fetch("https://api.thecatapi.com/v1/images/search");
+          const cats = await response.json();
+
+          const root = document.getElementById("root");
+          
+          root.innerHTML = `<div class='container'>
+            ${cats
+              .map(
+                (cat) => `<div class="item">
+                <img class="cat-image" src="${cat.url}" alt="Gatinho Aleatório" />
+              </div>`
+              )
+              .join("")}
+            <button onclick="getRandomCat()">Novo Gatinho</button>
+          </div>`;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getRandomCat();
+    </script>
+  </body>
+</html>
